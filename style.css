@@ -1,0 +1,106 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f0f4f8;
+    color: #333;
+  }
+  
+  header {
+    background-color: #54e042;
+    color: white;
+    padding: 1.5rem;
+    text-align: center;
+  }
+  
+  main {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  }
+  
+  h1, h2 {
+    margin-bottom: 1rem;
+  }
+  
+  .post {
+    background-color: white;
+    border-left: 5px solid #4f46e5;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+  
+  .post h3 {
+    margin-top: 0;
+  }
+  
+  .post p {
+    margin: 0.5rem 0;
+  }
+  
+  .post small {
+    color: #666;
+    display: block;
+    margin-top: 0.5rem;
+  }
+  
+  button {
+    background-color: #ef4444;
+    border: none;
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 0.5rem;
+  }
+  
+  button:hover {
+    background-color: #dc2626;
+  }
+  
+  form {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+  
+  form input,
+  form textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  form button {
+    background-color: #22c55e;
+  }
+  
+  form button:hover {
+    background-color: #16a34a;
+  }
+  
+  @media (max-width: 600px) {
+    main {
+      padding: 0 0.5rem;
+    }
+  }
+  
+  .button-group button:first-child {
+    background-color: #facc15; /* sárga */
+    color: black;
+  }
+  
+  .button-group button:first-child:hover {
+    background-color: #eab308;
+  }
+  

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Blog</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Blog</h1>
+    <p>Egy random alcím :3</p>
+  </header>
+
+  <main>
+    <h2>Create New Post</h2>
+    <form id="post-form">
+      <input name="author" placeholder="Author" required />
+      <input name="title" placeholder="Title" required />
+      <input name="category" placeholder="Category" required />
+      <textarea name="content" placeholder="Content" required></textarea>
+      <button type="submit">Add Post</button>
+    </form>
+
+    <h2>Posts</h2>
+    <section id="post-list"></section>
+  </main>
+
+  <script>
+    const API = 'http://localhost:3000/posts';
+    let editPostId = null;
+
+    function fetchPosts() {
+      fetch(API)
+        .then(res => res.json())
+        .then(posts => {
+          const container = document.getElementById('post-list');
+          container.innerHTML = '';
+          posts.reverse().forEach(post => {
+            container.innerHTML += `
+              <div class="post" data-id="${post.id}">
+                <h3>${post.title}</h3>
+                <p><strong>By:</strong> ${post.author}</p>
+                <p><strong>Category:</strong> ${post.category}</p>
+                <p>${post.content}</p>
+                <small>Created: ${new Date(post.created_at).toLocaleString()} | Updated: ${new Date(post.updated_at).toLocaleString()}</small>
+                <div class="button-group">
+                  <button onclick="editPost(${post.id}, '${post.author}', '${post.title}', '${post.category}', \`${post.content.replace(/`/g, '\\`')}\`)">Edit</button>
+                  <button onclick="deletePost(${post.id})">Delete</button>
+                </div>
+              </div>
+            `;
+          });
+        });
+    }
+
+    function deletePost(id) {
+      fetch(`${API}/${id}`, { method: 'DELETE' }).then(() => fetchPosts());
+    }
+
+    function editPost(id, author, title, category, content) {
+      const form = document.getElementById('post-form');
+      form.author.value = author;
+      form.title.value = title;
+      form.category.value = category;
+      form.content.value = content;
+      editPostId = id;
+
+      const btn = form.querySelector('button');
+      btn.textContent = 'Update Post';
+      btn.style.backgroundColor = '#3b82f6';
+    }
+
+    document.getElementById('post-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        author: form.author.value,
+        title: form.title.value,
+        category: form.category.value,
+        content: form.content.value
+      };
+
+      if (editPostId) {
+        fetch(`${API}/${editPostId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        }).then(() => {
+          editPostId = null;
+          form.reset();
+          fetchPosts();
+          const btn = form.querySelector('button');
+          btn.textContent = 'Add Post';
+          btn.style.backgroundColor = '#22c55e';
+        });
+      } else {
+        fetch(API, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        }).then(() => {
+          form.reset();
+          fetchPosts();
+        });
+      }
+    });
+
+    fetchPosts();
+  </script>
+</body>
+</html>
